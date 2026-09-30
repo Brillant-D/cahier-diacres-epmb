@@ -1,0 +1,1622 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cahier des Diacres — EPMB Ahossougneta</title>
+<style>
+:root {
+  --bleu:#1a5fa8; --bleu-c:#e8f0fb;
+  --rouge:#b91c1c; --rouge-c:#fee2e2;
+  --vert:#15803d; --vert-c:#dcfce7;
+  --or:#92400e; --or-c:#fef3c7;
+  --violet:#6d28d9; --violet-c:#ede9fe;
+  --gris:#374151; --gris-c:#f3f4f6;
+  --bord:#d1d5db; --blanc:#ffffff;
+  --texte:#111827; --doux:#6b7280;
+  --fond:#f0f4f8; --radius:10px;
+  --ombre:0 2px 8px rgba(0,0,0,.10);
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:system-ui,-apple-system,sans-serif;background:var(--fond);color:var(--texte);font-size:15px;line-height:1.5;min-height:100vh;}
+
+/* HEADER */
+header{background:var(--bleu);color:var(--blanc);padding:14px 16px 10px;padding-top:calc(14px + env(safe-area-inset-top,0px));text-align:center;position:sticky;top:0;z-index:100;box-shadow:var(--ombre);}
+header p.eg{font-size:10px;opacity:.85;letter-spacing:.03em;}
+header h1{font-size:16px;font-weight:700;margin:2px 0;}
+header p.col{font-size:11px;opacity:.80;}
+
+/* NAV */
+nav{display:flex;background:var(--blanc);border-bottom:2px solid var(--bord);overflow-x:auto;scrollbar-width:none;}
+nav::-webkit-scrollbar{display:none;}
+nav button{flex:0 0 auto;padding:9px 13px;font-size:12px;font-weight:600;color:var(--doux);background:none;border:none;border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap;}
+nav button.actif{color:var(--bleu);border-bottom-color:var(--bleu);}
+
+/* MAIN */
+main{padding:14px;max-width:600px;margin:0 auto;}
+
+/* CARTE */
+.carte{background:var(--blanc);border-radius:var(--radius);box-shadow:var(--ombre);padding:14px;margin-bottom:14px;}
+.carte h2{font-size:14px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.badge{font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;}
+
+/* COULEURS */
+.t-bleu h2{color:var(--bleu);} .t-bleu .badge{background:var(--bleu-c);color:var(--bleu);}
+.t-rouge h2{color:var(--rouge);} .t-rouge .badge{background:var(--rouge-c);color:var(--rouge);}
+.t-vert h2{color:var(--vert);} .t-vert .badge{background:var(--vert-c);color:var(--vert);}
+.t-or h2{color:var(--or);} .t-or .badge{background:var(--or-c);color:var(--or);}
+.t-violet h2{color:var(--violet);} .t-violet .badge{background:var(--violet-c);color:var(--violet);}
+
+/* FORM */
+label{display:block;font-size:12px;font-weight:600;color:var(--gris);margin-bottom:3px;}
+select,input[type=text],input[type=password],input[type=date],input[type=number],textarea{
+  width:100%;padding:9px 11px;border:1.5px solid var(--bord);border-radius:8px;
+  font-size:14px;color:var(--texte);background:var(--blanc);margin-bottom:10px;
+  -webkit-appearance:none;appearance:none;}
+select:focus,input:focus,textarea:focus{outline:none;border-color:var(--bleu);}
+textarea{resize:vertical;min-height:55px;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+
+/* BOUTONS */
+.btn{display:block;width:100%;padding:11px;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;text-align:center;}
+.btn:active{opacity:.8;}
+.btn-bleu{background:var(--bleu);color:var(--blanc);}
+.btn-rouge{background:var(--rouge);color:var(--blanc);}
+.btn-vert{background:var(--vert);color:var(--blanc);}
+.btn-or{background:#d97706;color:var(--blanc);}
+.btn-violet{background:var(--violet);color:var(--blanc);}
+.btn-gris{background:var(--gris-c);color:var(--gris);}
+.btn-sm{display:inline-block;width:auto;padding:3px 8px;font-size:11px;font-weight:600;border-radius:6px;border:none;cursor:pointer;}
+.btn-del{background:var(--rouge-c);color:var(--rouge);}
+.btn-edit{background:var(--bleu-c);color:var(--bleu);}
+
+/* ENTRÉES */
+.liste-titre{font-size:11px;font-weight:700;color:var(--doux);text-transform:uppercase;letter-spacing:.05em;margin-bottom:7px;}
+.entree{background:var(--gris-c);border-radius:8px;padding:9px 11px;margin-bottom:7px;display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
+.entree-info{flex:1;}
+.entree-date{font-size:11px;color:var(--doux);}
+.entree-desc{font-size:13px;font-weight:600;margin:1px 0;}
+.entree-montant{font-size:14px;font-weight:700;}
+.entree-actions{display:flex;align-items:center;gap:5px;flex-shrink:0;}
+
+/* TOTAL */
+.total-barre{background:var(--gris-c);border-radius:8px;padding:10px 13px;display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-weight:700;}
+.total-barre span:last-child{font-size:17px;}
+
+/* ERREUR */
+.erreur{color:var(--rouge);font-size:12px;margin-top:-8px;margin-bottom:8px;display:none;}
+
+/* FILTRE */
+.filtres{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.filtres select,.filtres input{margin-bottom:0;font-size:12px;padding:7px 9px;}
+.filtres-3{grid-template-columns:1fr 1fr 1fr;}
+
+/* MOTIFS */
+.motif-chip{display:inline-flex;align-items:center;gap:5px;background:var(--bleu-c);color:var(--bleu);border-radius:20px;padding:4px 10px;font-size:12px;font-weight:600;margin:3px;}
+.motif-chip.rouge{background:var(--rouge-c);color:var(--rouge);}
+.motif-chip.vert{background:var(--vert-c);color:var(--vert);}
+.motif-chip button{background:none;border:none;cursor:pointer;font-size:13px;line-height:1;padding:0;color:inherit;opacity:.7;}
+
+/* RÉPERTOIRE */
+.rep-carte{background:var(--blanc);border-radius:var(--radius);box-shadow:var(--ombre);margin-bottom:12px;overflow:hidden;}
+.rep-entete{display:flex;align-items:center;justify-content:space-between;padding:11px 13px;cursor:pointer;gap:8px;}
+.rep-nom{font-size:13px;font-weight:700;color:var(--texte);flex:1;}
+.rep-corps{display:none;padding:0 13px 13px;border-top:1px solid var(--bord);}
+.rep-corps.ouvert{display:block;}
+.rep-ligne{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px dashed var(--bord);font-size:13px;}
+.rep-ligne:last-child{border-bottom:none;}
+.barre-fond{background:var(--gris-c);border-radius:6px;height:6px;margin:6px 0 3px;overflow:hidden;}
+.barre-remplie{height:100%;border-radius:6px;transition:width .3s;}
+
+/* STATUTS */
+.st-solde{background:var(--vert-c);color:var(--vert);font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;white-space:nowrap;}
+.st-non{background:var(--rouge-c);color:var(--rouge);font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;white-space:nowrap;}
+.st-vide{background:var(--gris-c);color:var(--doux);font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;white-space:nowrap;}
+.st-partiel{background:var(--or-c);color:var(--or);font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;white-space:nowrap;}
+
+/* COMPTEURS */
+.compteurs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
+.compteur{border-radius:8px;padding:9px;text-align:center;}
+.compteur .val{font-size:20px;font-weight:700;}
+.compteur .lib{font-size:10px;font-weight:600;}
+
+/* BILAN */
+.bilan-ligne{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--bord);font-size:14px;}
+.bilan-ligne:last-child{border-bottom:none;}
+.bilan-total{font-weight:700;font-size:15px;border-top:2px solid var(--bord);padding-top:10px;margin-top:3px;}
+.bilan-solde{font-weight:700;font-size:16px;color:var(--bleu);border-top:2px solid var(--bleu);padding-top:10px;margin-top:3px;}
+
+/* VIDE */
+.vide{text-align:center;color:var(--doux);font-size:12px;padding:16px 0;}
+
+/* SECTION */
+.section{display:none;}
+.section.actif{display:block;}
+
+/* MODAL */
+.modal-fond{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:flex-end;}
+.modal-fond.ouvert{display:flex;}
+.modal-boite{background:var(--blanc);border-radius:16px 16px 0 0;padding:20px 16px;width:100%;max-height:85vh;overflow-y:auto;}
+.modal-titre{font-size:16px;font-weight:700;margin-bottom:14px;}
+.modal-fermer{float:right;background:var(--gris-c);border:none;border-radius:50%;width:28px;height:28px;font-size:16px;cursor:pointer;line-height:28px;text-align:center;}
+
+.al{font-weight:700;border-radius:10px;padding:1px 7px;display:inline-block;margin-top:2px;font-size:10px;}
+.al-v{background:var(--vert-c);color:var(--vert);} .al-o{background:var(--or-c);color:var(--or);} .al-r{background:var(--rouge-c);color:var(--rouge);}
+.gros{font-size:28px;font-weight:800;}
+.pr-row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;border-bottom:1px dashed var(--bord);font-size:13px;}
+.pr-row select{width:115px;margin:0;padding:5px 7px;font-size:12px;}
+#rapport{display:none;position:fixed;inset:0;background:#fff;z-index:300;overflow:auto;padding:14px;padding-top:calc(14px + env(safe-area-inset-top,0px));color:#111;}
+.rp table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:12px;}
+.rp th,.rp td{border:1px solid #d1d5db;padding:5px 7px;text-align:left;}
+.rp th{background:#e8f0fb;} .rp .m{text-align:right;white-space:nowrap;}
+.rp h3{font-size:13px;margin:12px 0 5px;color:#1a5fa8;}
+@media (max-width:480px){
+  body{font-size:14px;overflow-x:hidden;}
+  header{padding-left:10px;padding-right:10px;}
+  header h1{font-size:15px;}
+  nav button{padding:10px 11px;font-size:11px;}
+  main{padding:10px 9px;max-width:100%;}
+  .carte{padding:12px;margin-bottom:10px;border-radius:10px;}
+  .row2{grid-template-columns:1fr;gap:0;}
+  .entree{flex-direction:column;}
+  .entree-actions{width:100%;display:flex;gap:6px;flex-wrap:wrap;}
+  #verrou-pin{padding:14px;}
+  #verrou-pin .pin-card{width:100%;max-width:390px;padding:20px 16px;border-radius:18px;}
+  #verrou-pin .pin-logo{font-size:40px;}
+  #verrou-pin h2{font-size:22px;}
+  #verrou-pin p{font-size:13px;}
+  #pin-input{width:100%;max-width:100%;min-height:52px;letter-spacing:8px;font-size:23px;margin-bottom:8px;}
+  .pin-actions{display:block;}
+  .pin-actions .btn{min-height:50px;font-size:16px;}
+}
+
+@media print{body>*:not(#rapport){display:none!important;}#rapport{position:static!important;padding:0!important;overflow:visible!important;}.no-print{display:none!important;}}
+
+/* ── VERROUILLAGE PERSONNEL ── */
+#verrou-pin{position:fixed;inset:0;z-index:9999;background:linear-gradient(145deg,#0f3d68,#1a5fa8);display:flex;align-items:center;justify-content:center;padding:20px;color:#fff;}
+#verrou-pin .pin-card{width:min(390px,100%);background:#fff;color:#172033;border-radius:22px;padding:26px;box-shadow:0 20px 60px rgba(0,0,0,.28);text-align:center;}
+#verrou-pin .pin-logo{font-size:46px;margin-bottom:8px;}
+#verrou-pin h2{margin:4px 0 8px;color:#1a5fa8;}
+#verrou-pin p{font-size:13px;color:#667085;line-height:1.5;}
+#pin-input{letter-spacing:10px;text-align:center;font-size:25px;font-weight:800;}
+.pin-actions{display:flex;gap:8px;margin-top:10px;}
+.pin-actions button{flex:1;}
+#pin-msg{min-height:20px;font-size:12px;color:#c62828;font-weight:700;margin-top:8px;}
+body.verrouille main,body.verrouille header,body.verrouille nav{visibility:hidden;}
+</style>
+
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#1a5fa8">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Cahier Diacres">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+</head>
+<body class="verrouille">
+<div id="verrou-pin">
+  <div class="pin-card">
+    <div class="pin-logo">🔐</div>
+    <h2>Cahier des Diacres</h2>
+    <p id="pin-subtitle">Ce cahier est protégé. Entrez votre code PIN personnel.</p>
+    <input id="pin-input" inputmode="numeric" autocomplete="off" maxlength="6" type="password" placeholder="••••" onkeydown="if(event.key==='Enter')validerPIN()">
+    <div class="pin-actions"><button class="btn btn-bleu" onclick="validerPIN()">Ouvrir</button></div>
+    <div id="pin-msg"></div>
+  </div>
+</div>
+
+
+<header>
+  <p class="eg">Église Protestante Méthodiste du Bénin</p>
+  <h1>EPMB — Ahossougneta Temple Donatin</h1>
+  <p class="col">Cahier numérique · Collège des Diacres</p>
+</header>
+
+<nav>
+  <button class="actif" onclick="aller('accueil',this)">🏠 Accueil</button>
+  <button onclick="aller('motifs',this)">🗂️ Motifs</button>
+  <button onclick="aller('cotisations',this)">💳 Cotisations</button>
+  <button onclick="aller('depenses',this)">💸 Dépenses</button>
+  <button onclick="aller('dons',this)">🙏 Dons</button>
+  <button onclick="aller('repertoire',this)">📋 Répertoire</button>
+  <button onclick="aller('bilan',this)">⚖️ Bilan</button>
+  <button onclick="aller('stats',this)">📊 Stats</button>
+  <button onclick="aller('presences',this)">👥 Présences</button>
+  <button onclick="aller('sauvegarde',this)">💾 Sauvegarde</button>
+</nav>
+
+<main>
+
+<!-- ═══════════════════════════════
+     MOTIFS
+════════════════════════════════ -->
+<section id="accueil" class="section actif"><div id="accueil-contenu"></div></section>
+
+<section id="motifs" class="section">
+
+  <!-- Créer un motif cotisation -->
+  <div class="carte t-bleu">
+    <h2>🗂️ Créer un motif de cotisation</h2>
+    <label>Nom du motif</label>
+    <input type="text" id="mc-nom" placeholder="Ex. : Retraite spirituelle 2026">
+    <p class="erreur" id="err-mc-nom">Veuillez saisir un nom.</p>
+    <div class="row2">
+      <div>
+        <label>Montant attendu (F CFA)</label>
+        <input type="number" id="mc-montant" placeholder="Optionnel" min="0">
+      </div>
+      <div>
+        <label>Date limite</label>
+        <input type="date" id="mc-date">
+      </div>
+    </div>
+    <label>Description (optionnel)</label>
+    <textarea id="mc-desc" placeholder="Détails du motif…"></textarea>
+    <button class="btn btn-bleu" onclick="ajouterMotif('cot')">Créer le motif</button>
+  </div>
+
+  <!-- Liste motifs cotisation -->
+  <div class="carte">
+    <h2 style="color:var(--bleu);">Motifs de cotisation</h2>
+    <div id="liste-motifs-cot"><p class="vide">Aucun motif créé.</p></div>
+  </div>
+
+  <!-- Créer un motif dépense -->
+  <div class="carte t-rouge">
+    <h2>🗂️ Créer un motif de dépense</h2>
+    <label>Nom du motif</label>
+    <input type="text" id="md-nom" placeholder="Ex. : Fournitures bureau">
+    <p class="erreur" id="err-md-nom">Veuillez saisir un nom.</p>
+    <div class="row2">
+      <div>
+        <label>Montant prévu (F CFA)</label>
+        <input type="number" id="md-montant" placeholder="Optionnel" min="0">
+      </div>
+      <div>
+        <label>Date prévue</label>
+        <input type="date" id="md-date">
+      </div>
+    </div>
+    <textarea id="md-desc" placeholder="Description…"></textarea>
+    <button class="btn btn-rouge" onclick="ajouterMotif('dep')">Créer le motif</button>
+  </div>
+
+  <div class="carte">
+    <h2 style="color:var(--rouge);">Motifs de dépense</h2>
+    <div id="liste-motifs-dep"><p class="vide">Aucun motif créé.</p></div>
+  </div>
+
+  <!-- Créer un motif don -->
+  <div class="carte t-vert">
+    <h2>🗂️ Créer un motif de don</h2>
+    <label>Nom du motif</label>
+    <input type="text" id="mdn-nom" placeholder="Ex. : Aide aux nécessiteux">
+    <p class="erreur" id="err-mdn-nom">Veuillez saisir un nom.</p>
+    <div class="row2">
+      <div>
+        <label>Objectif (F CFA)</label>
+        <input type="number" id="mdn-montant" placeholder="Optionnel" min="0">
+      </div>
+      <div>
+        <label>Date limite</label>
+        <input type="date" id="mdn-date">
+      </div>
+    </div>
+    <textarea id="mdn-desc" placeholder="Description…"></textarea>
+    <button class="btn btn-vert" onclick="ajouterMotif('don')">Créer le motif</button>
+  </div>
+
+  <div class="carte">
+    <h2 style="color:var(--vert);">Motifs de don</h2>
+    <div id="liste-motifs-don"><p class="vide">Aucun motif créé.</p></div>
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════════
+     COTISATIONS
+════════════════════════════════ -->
+<section id="cotisations" class="section">
+  <div class="carte t-bleu">
+    <h2>💳 Enregistrer une cotisation <span class="badge" id="badge-modif-cot" style="display:none;background:var(--or-c);color:var(--or);">Modification</span></h2>
+    <label>Motif de cotisation</label>
+    <select id="cot-motif">
+      <option value="">— Choisir un motif —</option>
+    </select>
+    <p class="erreur" id="err-cot-motif">Veuillez choisir un motif.</p>
+    <label>Diacre</label>
+    <select id="cot-diacre">
+      <option value="">— Choisir un diacre —</option>
+      <option>AYENA Ariane</option>
+      <option>Mme AYAKA Epiphanie</option>
+      <option>DAGA Constance</option>
+      <option>TODJE Françoise</option>
+      <option>DANDJINOU Brillant</option>
+      <option>BIAOU Michel</option>
+      <option>HOUETO Madeleine</option>
+      <option>Maman Forfor</option>
+      <option>TOHO Clarisse</option>
+      <option>MAHOULINKPONTO Françoise</option>
+    </select>
+    <p class="erreur" id="err-cot-diacre">Veuillez choisir un diacre.</p>
+    <div class="row2">
+      <div>
+        <label>Date du versement</label>
+        <input type="date" id="cot-date">
+        <p class="erreur" id="err-cot-date">Date requise.</p>
+      </div>
+      <div>
+        <label>Montant (F CFA)</label>
+        <input type="number" id="cot-montant" placeholder="Ex. : 1000" min="1">
+        <p class="erreur" id="err-cot-montant">Montant requis.</p>
+      </div>
+    </div>
+    <label>Note (optionnel)</label>
+    <input type="text" id="cot-note" placeholder="Remarque éventuelle…">
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-bleu" id="btn-cot" onclick="validerCotisation()" style="flex:1;">Enregistrer</button>
+      <button class="btn btn-gris" id="btn-cot-annuler" onclick="annulerModif('cot')" style="display:none;flex:0 0 auto;width:auto;padding:11px 14px;">Annuler</button>
+    </div>
+  </div>
+
+  <!-- Filtres -->
+  <div class="carte">
+    <p class="liste-titre" style="margin-bottom:8px;">Filtrer les cotisations</p>
+    <div class="filtres">
+      <select id="f-cot-diacre" onchange="afficherCotisations()">
+        <option value="">Tous les diacres</option>
+        <option>AYENA Ariane</option>
+        <option>Mme AYAKA Epiphanie</option>
+        <option>DAGA Constance</option>
+        <option>TODJE Françoise</option>
+        <option>DANDJINOU Brillant</option>
+        <option>BIAOU Michel</option>
+        <option>HOUETO Madeleine</option>
+        <option>Maman Forfor</option>
+        <option>TOHO Clarisse</option>
+        <option>MAHOULINKPONTO Françoise</option>
+      </select>
+      <select id="f-cot-motif" onchange="afficherCotisations()">
+        <option value="">Tous les motifs</option>
+      </select>
+      <input type="date" id="f-cot-date-debut" onchange="afficherCotisations()" placeholder="Du…" title="Date début">
+      <input type="date" id="f-cot-date-fin" onchange="afficherCotisations()" placeholder="Au…" title="Date fin">
+    </div>
+    <div id="liste-cotisations"><p class="vide">Aucune cotisation enregistrée.</p></div>
+    <div class="total-barre" id="total-cotisations" style="display:none;">
+      <span>Total</span><span id="val-total-cot">0 F</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════
+     DÉPENSES
+════════════════════════════════ -->
+<section id="depenses" class="section">
+  <div class="carte t-rouge">
+    <h2>💸 Enregistrer une dépense <span class="badge" id="badge-modif-dep" style="display:none;background:var(--or-c);color:var(--or);">Modification</span></h2>
+    <label>Motif de dépense</label>
+    <select id="dep-motif">
+      <option value="">— Choisir un motif —</option>
+    </select>
+    <label>Objet / Description</label>
+    <input type="text" id="dep-objet" placeholder="Ex. : Achat cahiers">
+    <p class="erreur" id="err-dep-objet">Objet requis.</p>
+    <div class="row2">
+      <div>
+        <label>Date</label>
+        <input type="date" id="dep-date">
+        <p class="erreur" id="err-dep-date">Date requise.</p>
+      </div>
+      <div>
+        <label>Montant (F CFA)</label>
+        <input type="number" id="dep-montant" placeholder="Ex. : 5000" min="1">
+        <p class="erreur" id="err-dep-montant">Montant requis.</p>
+      </div>
+    </div>
+    <label>Responsable</label>
+    <select id="dep-responsable">
+      <option value="">— Optionnel —</option>
+      <option>AYENA Ariane</option>
+      <option>Mme AYAKA Epiphanie</option>
+      <option>DAGA Constance</option>
+      <option>TODJE Françoise</option>
+      <option>DANDJINOU Brillant</option>
+      <option>BIAOU Michel</option>
+      <option>HOUETO Madeleine</option>
+      <option>Maman Forfor</option>
+      <option>TOHO Clarisse</option>
+      <option>MAHOULINKPONTO Françoise</option>
+    </select>
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-rouge" id="btn-dep" onclick="validerDepense()" style="flex:1;">Enregistrer</button>
+      <button class="btn btn-gris" id="btn-dep-annuler" onclick="annulerModif('dep')" style="display:none;flex:0 0 auto;width:auto;padding:11px 14px;">Annuler</button>
+    </div>
+  </div>
+
+  <div class="carte">
+    <p class="liste-titre" style="margin-bottom:8px;">Filtrer les dépenses</p>
+    <div class="filtres">
+      <select id="f-dep-motif" onchange="afficherDepenses()">
+        <option value="">Tous les motifs</option>
+      </select>
+      <select id="f-dep-responsable" onchange="afficherDepenses()">
+        <option value="">Tous</option>
+        <option>AYENA Ariane</option>
+        <option>Mme AYAKA Epiphanie</option>
+        <option>DAGA Constance</option>
+        <option>TODJE Françoise</option>
+        <option>DANDJINOU Brillant</option>
+        <option>BIAOU Michel</option>
+        <option>HOUETO Madeleine</option>
+        <option>Maman Forfor</option>
+        <option>TOHO Clarisse</option>
+        <option>MAHOULINKPONTO Françoise</option>
+      </select>
+      <input type="date" id="f-dep-debut" onchange="afficherDepenses()" title="Date début">
+      <input type="date" id="f-dep-fin" onchange="afficherDepenses()" title="Date fin">
+    </div>
+    <div id="liste-depenses"><p class="vide">Aucune dépense enregistrée.</p></div>
+    <div class="total-barre" id="total-depenses" style="display:none;">
+      <span>Total dépenses</span><span id="val-total-dep">0 F</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════
+     DONS
+════════════════════════════════ -->
+<section id="dons" class="section">
+  <div class="carte t-vert">
+    <h2>🙏 Enregistrer un don <span class="badge" id="badge-modif-don" style="display:none;background:var(--or-c);color:var(--or);">Modification</span></h2>
+    <label>Motif du don</label>
+    <select id="don-motif">
+      <option value="">— Choisir un motif —</option>
+    </select>
+    <label>Donateur</label>
+    <input type="text" id="don-donateur" placeholder="Nom ou Anonyme">
+    <p class="erreur" id="err-don-donateur">Donateur requis.</p>
+    <div class="row2">
+      <div>
+        <label>Date</label>
+        <input type="date" id="don-date">
+        <p class="erreur" id="err-don-date">Date requise.</p>
+      </div>
+      <div>
+        <label>Montant (F CFA)</label>
+        <input type="number" id="don-montant" placeholder="Ex. : 2000" min="1">
+        <p class="erreur" id="err-don-montant">Montant requis.</p>
+      </div>
+    </div>
+    <label>Note (optionnel)</label>
+    <input type="text" id="don-note" placeholder="Destination, remarque…">
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-vert" id="btn-don" onclick="validerDon()" style="flex:1;">Enregistrer</button>
+      <button class="btn btn-gris" id="btn-don-annuler" onclick="annulerModif('don')" style="display:none;flex:0 0 auto;width:auto;padding:11px 14px;">Annuler</button>
+    </div>
+  </div>
+
+  <div class="carte">
+    <p class="liste-titre" style="margin-bottom:8px;">Filtrer les dons</p>
+    <div class="filtres">
+      <select id="f-don-motif" onchange="afficherDons()">
+        <option value="">Tous les motifs</option>
+      </select>
+      <input type="text" id="f-don-donateur" oninput="afficherDons()" placeholder="Chercher donateur…" style="margin-bottom:0;font-size:12px;padding:7px 9px;">
+      <input type="date" id="f-don-debut" onchange="afficherDons()" title="Date début">
+      <input type="date" id="f-don-fin" onchange="afficherDons()" title="Date fin">
+    </div>
+    <div id="liste-dons"><p class="vide">Aucun don enregistré.</p></div>
+    <div class="total-barre" id="total-dons" style="display:none;">
+      <span>Total dons</span><span id="val-total-don">0 F</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════
+     RÉPERTOIRE
+════════════════════════════════ -->
+<section id="repertoire" class="section">
+
+  <!-- Sous-onglets répertoire -->
+  <div style="display:flex;gap:8px;margin-bottom:14px;">
+    <button class="btn btn-bleu" id="rep-tab-cot" onclick="repOnglet('cot')" style="flex:1;padding:8px;font-size:12px;">Cotisations</button>
+    <button class="btn btn-gris" id="rep-tab-dep" onclick="repOnglet('dep')" style="flex:1;padding:8px;font-size:12px;">Dépenses</button>
+    <button class="btn btn-gris" id="rep-tab-don" onclick="repOnglet('don')" style="flex:1;padding:8px;font-size:12px;">Dons</button>
+  </div>
+
+  <!-- Répertoire cotisations -->
+  <div id="rep-cot">
+    <div class="carte">
+      <p class="liste-titre" style="margin-bottom:8px;">Filtrer</p>
+      <div class="filtres">
+        <select id="rf-cot-motif" onchange="afficherRepCot()"><option value="">Tous les motifs</option></select>
+        <select id="rf-cot-diacre" onchange="afficherRepCot()">
+          <option value="">Tous les diacres</option>
+          <option>AYENA Ariane</option><option>Mme AYAKA Epiphanie</option>
+          <option>DAGA Constance</option><option>TODJE Françoise</option>
+          <option>DANDJINOU Brillant</option><option>BIAOU Michel</option>
+          <option>HOUETO Madeleine</option><option>Maman Forfor</option>
+          <option>TOHO Clarisse</option><option>MAHOULINKPONTO Françoise</option>
+        </select>
+        <select id="rf-cot-statut" onchange="afficherRepCot()">
+          <option value="">Tous statuts</option>
+          <option value="solde">Soldés</option>
+          <option value="nonsolde">Non soldés</option>
+          <option value="vide">Sans versement</option>
+        </select>
+        <input type="date" id="rf-cot-debut" onchange="afficherRepCot()" title="Du">
+        <input type="date" id="rf-cot-fin" onchange="afficherRepCot()" title="Au">
+        <input type="number" id="rf-cot-min" onchange="afficherRepCot()" placeholder="Montant min" min="0" style="margin-bottom:0;font-size:12px;padding:7px 9px;">
+      </div>
+    </div>
+    <div class="compteurs" id="rep-cot-compteurs"></div>
+    <div id="rep-cot-liste"></div>
+  </div>
+
+  <!-- Répertoire dépenses -->
+  <div id="rep-dep" style="display:none;">
+    <div class="carte">
+      <p class="liste-titre" style="margin-bottom:8px;">Filtrer</p>
+      <div class="filtres">
+        <select id="rf-dep-motif" onchange="afficherRepDep()"><option value="">Tous les motifs</option></select>
+        <select id="rf-dep-resp" onchange="afficherRepDep()">
+          <option value="">Tous responsables</option>
+          <option>AYENA Ariane</option><option>Mme AYAKA Epiphanie</option>
+          <option>DAGA Constance</option><option>TODJE Françoise</option>
+          <option>DANDJINOU Brillant</option><option>BIAOU Michel</option>
+          <option>HOUETO Madeleine</option><option>Maman Forfor</option>
+          <option>TOHO Clarisse</option><option>MAHOULINKPONTO Françoise</option>
+        </select>
+        <input type="date" id="rf-dep-debut" onchange="afficherRepDep()" title="Du">
+        <input type="date" id="rf-dep-fin" onchange="afficherRepDep()" title="Au">
+      </div>
+    </div>
+    <div id="rep-dep-liste"></div>
+  </div>
+
+  <!-- Répertoire dons -->
+  <div id="rep-don" style="display:none;">
+    <div class="carte">
+      <p class="liste-titre" style="margin-bottom:8px;">Filtrer</p>
+      <div class="filtres">
+        <select id="rf-don-motif" onchange="afficherRepDon()"><option value="">Tous les motifs</option></select>
+        <input type="date" id="rf-don-debut" onchange="afficherRepDon()" title="Du">
+        <input type="date" id="rf-don-fin" onchange="afficherRepDon()" title="Au">
+      </div>
+    </div>
+    <div id="rep-don-liste"></div>
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════════
+     BILAN
+════════════════════════════════ -->
+<section id="bilan" class="section">
+  <div class="carte t-or">
+    <h2>⚖️ Bilan général</h2>
+    <div class="filtres row2" style="margin-bottom:14px;">
+      <select id="bil-mois" onchange="rafraichirBilan()">
+        <option value="">Tous les mois</option>
+        <option value="01">Janvier</option><option value="02">Février</option>
+        <option value="03">Mars</option><option value="04">Avril</option>
+        <option value="05">Mai</option><option value="06">Juin</option>
+        <option value="07">Juillet</option><option value="08">Août</option>
+        <option value="09">Septembre</option><option value="10">Octobre</option>
+        <option value="11">Novembre</option><option value="12">Décembre</option>
+      </select>
+      <select id="bil-annee" onchange="rafraichirBilan()">
+        <option value="">Toutes années</option>
+        <option value="2024">2024</option><option value="2025">2025</option>
+        <option value="2026">2026</option><option value="2027">2027</option>
+      </select>
+    </div>
+    <div id="bilan-contenu"></div>
+    <button class="btn btn-or" onclick="genererRapport()" style="margin-top:14px;">🖨️ Générer le rapport</button>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════
+     SAUVEGARDE
+════════════════════════════════ -->
+<section id="stats" class="section">
+  <div class="carte t-bleu">
+    <h2>📊 Statistiques <select id="st-annee" onchange="rafraichirStats()" style="width:auto;margin:0 0 0 auto;padding:4px 8px;font-size:12px;"></select></h2>
+    <p class="liste-titre">Cotisations par mois (F CFA)</p><div id="st-cot"></div>
+  </div>
+  <div class="carte t-rouge"><h2>🥧 Dépenses par motif</h2><div id="st-dep"></div></div>
+  <div class="carte t-or"><h2>📈 Évolution du solde</h2><div id="st-solde"></div></div>
+</section>
+
+<section id="presences" class="section">
+  <div class="carte t-violet">
+    <h2>👥 Enregistrer une réunion <span class="badge" id="badge-modif-pres" style="display:none;background:var(--or-c);color:var(--or);">Modification</span></h2>
+    <div class="row2">
+      <div><label>Date</label><input type="date" id="pr-date"><p class="erreur" id="err-pr-date">Date requise.</p></div>
+      <div><label>Objet (optionnel)</label><input type="text" id="pr-objet" placeholder="Ex. : Réunion mensuelle"></div>
+    </div>
+    <div id="pr-liste" style="margin-bottom:12px;"></div>
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-violet" id="btn-pres" onclick="validerPres()" style="flex:1;">Enregistrer la réunion</button>
+      <button class="btn btn-gris" id="btn-pres-annuler" onclick="resetFormPres()" style="display:none;flex:0 0 auto;width:auto;padding:11px 14px;">Annuler</button>
+    </div>
+  </div>
+  <div class="carte t-violet">
+    <h2>📊 Taux de présence <select id="pr-annee" onchange="afficherPres()" style="width:auto;margin:0 0 0 auto;padding:4px 8px;font-size:12px;"></select></h2>
+    <div id="pr-taux"></div>
+  </div>
+  <div class="carte"><p class="liste-titre">Réunions enregistrées</p><div id="pr-hist"></div></div>
+</section>
+
+<section id="sauvegarde" class="section">
+  <div class="carte" style="border-left:4px solid var(--vert);">
+    <h2 style="color:var(--vert);">📤 Exporter mes données</h2>
+    <p style="font-size:13px;color:var(--doux);margin-bottom:12px;">Télécharge un fichier contenant toutes tes données. Envoie-le sur WhatsApp ou Google Drive.</p>
+    <div style="background:var(--vert-c);border-radius:8px;padding:9px 12px;margin-bottom:12px;font-size:13px;color:var(--vert);font-weight:600;" id="export-resume">Chargement…</div>
+    <button class="btn btn-vert" onclick="exporterDonnees()">Télécharger la sauvegarde (.json)</button>
+  </div>
+  <div class="carte" style="border-left:4px solid var(--bleu);">
+    <h2 style="color:var(--bleu);">📥 Importer une sauvegarde</h2>
+    <p style="font-size:13px;color:var(--doux);margin-bottom:10px;">Sélectionne ton fichier .json pour restaurer toutes tes données.</p>
+    <div style="background:var(--rouge-c);border-radius:8px;padding:9px 12px;margin-bottom:12px;font-size:12px;color:var(--rouge);">⚠️ L'import remplace toutes les données actuelles.</div>
+    <label style="display:block;background:var(--bleu);color:white;text-align:center;padding:11px;border-radius:8px;font-weight:700;font-size:14px;cursor:pointer;">
+      Choisir le fichier de sauvegarde
+      <input type="file" accept=".json" style="display:none;" onchange="importerDonnees(this)">
+    </label>
+    <p id="import-msg" style="display:none;margin-top:10px;font-size:13px;text-align:center;font-weight:600;"></p>
+  </div>
+  <div class="carte" style="border-left:4px solid var(--vert);">
+    <h2 style="color:var(--vert);">🛡️ Sauvegarde automatique</h2>
+    <p style="font-size:13px;color:var(--gris);line-height:1.7;">Le cahier crée automatiquement des copies locales de tes données dans le stockage sécurisé du navigateur. Aucune action manuelle n’est nécessaire pendant l’utilisation.</p>
+    <p id="auto-backup-status" style="font-size:12px;font-weight:700;color:var(--vert);">✅ Sauvegarde locale automatique activée.</p>
+  </div>
+  <div class="carte" style="border-left:4px solid var(--or);">
+    <h2 style="color:var(--or);">💡 Conseils</h2>
+    <div style="font-size:13px;color:var(--gris);line-height:1.9;">
+      <div style="padding:5px 0;border-bottom:1px dashed var(--bord);">✅ <strong>Après chaque réunion</strong> — exporter et envoyer sur WhatsApp</div>
+      <div style="padding:5px 0;border-bottom:1px dashed var(--bord);">✅ <strong>Fin de mois</strong> — sauvegarder dans Google Drive</div>
+      <div style="padding:5px 0;border-bottom:1px dashed var(--bord);">✅ <strong>Avant de vider Chrome</strong> — toujours exporter d'abord</div>
+      <div style="padding:5px 0;">✅ <strong>Avant de changer de téléphone</strong> — exporter, transférer, importer</div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<div id="rapport">
+  <div class="no-print" style="display:flex;gap:8px;margin-bottom:12px;">
+    <button class="btn btn-bleu" onclick="window.print()" style="flex:1;">🖨️ Imprimer / PDF</button>
+    <button class="btn btn-gris" onclick="document.getElementById('rapport').style.display='none'" style="flex:0 0 auto;width:auto;padding:11px 16px;">✕ Fermer</button>
+  </div>
+  <div class="rp" id="rapport-corps"></div>
+</div>
+
+<script>
+// ════════════════════════════════════════════
+// PROTECTION PIN + SAUVEGARDE LOCALE AUTOMATIQUE
+// ════════════════════════════════════════════
+const PIN_KEY='epmb_pin_v1';
+const DB_NAME='epmb_auto_backup';
+const DB_STORE='snapshots';
+let sessionOuverte=false;
+function hashPIN(pin){
+  let h=2166136261; for(let i=0;i<pin.length;i++){h^=pin.charCodeAt(i);h=Math.imul(h,16777619);} return (h>>>0).toString(16);
+}
+function pinExiste(){try{return !!localStorage.getItem(PIN_KEY)}catch(e){return false}}
+function initPIN(){
+  const sub=document.getElementById('pin-subtitle');
+  if(!pinExiste()){sub.textContent='Choisissez un code PIN de 4 à 6 chiffres. Il protégera l’accès à ce cahier sur cet appareil.';}
+  else sub.textContent='Ce cahier est protégé. Entrez votre code PIN personnel.';
+}
+function validerPIN(){
+  const input=document.getElementById('pin-input'), pin=input.value.trim(), msg=document.getElementById('pin-msg');
+  if(!/^\d{4,6}$/.test(pin)){msg.textContent='Le PIN doit contenir 4 à 6 chiffres.';return;}
+  if(!pinExiste()){
+    localStorage.setItem(PIN_KEY,hashPIN(pin));
+    ouvrirCahier(); msg.textContent=''; return;
+  }
+  if(hashPIN(pin)===localStorage.getItem(PIN_KEY)){ouvrirCahier();msg.textContent='';}
+  else {msg.textContent='PIN incorrect.';input.value='';input.focus();}
+}
+function ouvrirCahier(){sessionOuverte=true;document.body.classList.remove('verrouille');document.getElementById('verrou-pin').style.display='none';} 
+function autoBackup(){
+  try{
+    const data={version:'4.0-auto',date_backup:new Date().toISOString(),cotisations,depenses,dons,motifsCot,motifsDep,motifsDon,presences};
+    const req=indexedDB.open(DB_NAME,1);
+    req.onupgradeneeded=e=>{const db=e.target.result;if(!db.objectStoreNames.contains(DB_STORE))db.createObjectStore(DB_STORE,{keyPath:'id',autoIncrement:true});};
+    req.onsuccess=e=>{const db=e.target.result;const tx=db.transaction(DB_STORE,'readwrite');tx.objectStore(DB_STORE).add(data);tx.oncomplete=()=>{try{localStorage.setItem('epmb_last_auto_backup',data.date_backup)}catch(_){};};};
+  }catch(e){}
+}
+function lireDerniereSauvegardeLocale(){try{return localStorage.getItem('epmb_last_auto_backup')}catch(e){return null}}
+window.addEventListener('load',()=>{initPIN();});
+
+// PWA — fonctionnement hors connexion
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
+}
+// ════════════════════════════════════════════
+// DONNÉES — localStorage
+// ════════════════════════════════════════════
+function charger(k){ try{ return JSON.parse(localStorage.getItem(k))||[]; }catch(e){ return []; } }
+function sauv(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} try{ clearTimeout(window.__epmbBackupTimer); window.__epmbBackupTimer=setTimeout(()=>{ if(sessionOuverte) autoBackup(); },350); }catch(e){} }
+
+// Tableaux principaux
+let cotisations = charger('epmb_cot');
+let depenses    = charger('epmb_dep');
+let dons        = charger('epmb_don');
+// Motifs par catégorie
+let motifsCot   = charger('epmb_motifs_cot');
+let motifsDep   = charger('epmb_motifs_dep');
+let motifsDon   = charger('epmb_motifs_don');
+let presences   = charger('epmb_pres');
+
+// Index de modification en cours (-1 = aucun)
+let modifCot = -1, modifDep = -1, modifDon = -1;
+
+const DIACRES = ['AYENA Ariane','Mme AYAKA Epiphanie','DAGA Constance',
+  'TODJE Françoise','DANDJINOU Brillant','BIAOU Michel',
+  'HOUETO Madeleine','Maman Forfor','TOHO Clarisse','MAHOULINKPONTO Françoise'];
+
+// ════════════════════════════════════════════
+// NAVIGATION
+// ════════════════════════════════════════════
+function aller(id, btn){
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('actif'));
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('actif'));
+  btn.classList.add('actif');
+  document.getElementById(id).classList.add('actif');
+  if(id==='accueil')    rafraichirAccueil();
+  if(id==='stats')      rafraichirStats();
+  if(id==='presences')  afficherPres();
+  if(id==='bilan')      rafraichirBilan();
+  if(id==='repertoire') { afficherRepCot(); afficherRepDep(); afficherRepDon(); }
+  if(id==='sauvegarde') rafraichirResumeSauvegarde();
+  if(id==='cotisations') syncSelectMotifs('cot');
+  if(id==='depenses')    syncSelectMotifs('dep');
+  if(id==='dons')        syncSelectMotifs('don');
+}
+
+// ════════════════════════════════════════════
+// UTILITAIRES
+// ════════════════════════════════════════════
+function fmt(n){ return n.toLocaleString('fr-FR')+' F CFA'; }
+function fmtCourt(n){ return n.toLocaleString('fr-FR')+' F'; }
+function err(id,v){ const el=document.getElementById(id); if(el) el.style.display=v?'block':'none'; }
+function req(v){ return v!==null && String(v).trim()!==''; }
+function fmtDate(iso){
+  if(!iso) return '';
+  const [a,m,j]=iso.split('-');
+  const M=['jan','fév','mar','avr','mai','jun','jul','aoû','sep','oct','nov','déc'];
+  return `${parseInt(j)} ${M[parseInt(m)-1]} ${a}`;
+}
+function matchPeriode(date, debut, fin){
+  // Vérifie si une date est dans la période filtrée
+  if(debut && date < debut) return false;
+  if(fin   && date > fin)   return false;
+  return true;
+}
+
+// ════════════════════════════════════════════
+// MOTIFS — Créer, afficher, supprimer
+// ════════════════════════════════════════════
+function ajouterMotif(type){
+  const ids = { cot:['mc-nom','mc-montant','mc-date','mc-desc','err-mc-nom'],
+                dep:['md-nom','md-montant','md-date','md-desc','err-md-nom'],
+                don:['mdn-nom','mdn-montant','mdn-date','mdn-desc','err-mdn-nom'] };
+  const [nomId,montId,dateId,descId,errId] = ids[type];
+  const nom  = document.getElementById(nomId).value.trim();
+  const mont = parseFloat(document.getElementById(montId).value)||0;
+  const date = document.getElementById(dateId).value;
+  const desc = document.getElementById(descId).value.trim();
+  err(errId, !req(nom)); if(!req(nom)) return;
+
+  // Ajoute le motif dans la liste correspondante
+  const motifs = type==='cot'?motifsCot:type==='dep'?motifsDep:motifsDon;
+  motifs.push({ id: Date.now(), nom, montant: mont, date, desc });
+  if(type==='cot') sauv('epmb_motifs_cot', motifsCot);
+  if(type==='dep') sauv('epmb_motifs_dep', motifsDep);
+  if(type==='don') sauv('epmb_motifs_don', motifsDon);
+
+  // Vide le formulaire
+  document.getElementById(nomId).value  = '';
+  document.getElementById(montId).value = '';
+  document.getElementById(dateId).value = '';
+  document.getElementById(descId).value = '';
+
+  afficherListeMotifs(type);
+  syncSelectMotifs(type);        // met à jour les selects dans les formulaires
+  syncFiltresMotifs(type);       // met à jour les filtres
+}
+
+function afficherListeMotifs(type){
+  const motifs = type==='cot'?motifsCot:type==='dep'?motifsDep:motifsDon;
+  const el = document.getElementById('liste-motifs-'+type);
+  if(!el) return;
+  if(motifs.length===0){ el.innerHTML='<p class="vide">Aucun motif créé.</p>'; return; }
+  el.innerHTML = motifs.map((m,i)=>{ const al=alerte(m); return `
+    <div class="motif-chip ${type==='dep'?'rouge':type==='don'?'vert':''}">
+      <span>${m.nom}${m.montant>0?' ('+m.montant.toLocaleString('fr-FR')+' F)':''}${al?`<br><span class="al al-${al.c}">${al.t} · ${fmtDate(m.date)}</span>`:''}</span>
+      <button onclick="supprimerMotif('${type}',${i})" title="Supprimer">✕</button>
+    </div>`;}).join('');
+}
+
+function supprimerMotif(type, i){
+  if(!confirm('Supprimer ce motif ?')) return;
+  if(type==='cot'){ motifsCot.splice(i,1); sauv('epmb_motifs_cot',motifsCot); }
+  if(type==='dep'){ motifsDep.splice(i,1); sauv('epmb_motifs_dep',motifsDep); }
+  if(type==='don'){ motifsDon.splice(i,1); sauv('epmb_motifs_don',motifsDon); }
+  afficherListeMotifs(type);
+  syncSelectMotifs(type);
+  syncFiltresMotifs(type);
+}
+
+// Synchronise le select de motif dans le formulaire d'enregistrement
+function syncSelectMotifs(type){
+  const ids = { cot:'cot-motif', dep:'dep-motif', don:'don-motif' };
+  const motifs = type==='cot'?motifsCot:type==='dep'?motifsDep:motifsDon;
+  const sel = document.getElementById(ids[type]);
+  if(!sel) return;
+  const val = sel.value; // conserve la valeur sélectionnée
+  sel.innerHTML = '<option value="">— Choisir un motif (optionnel) —</option>' +
+    motifs.map(m=>`<option value="${m.id}">${m.nom}${m.montant>0?' — '+m.montant.toLocaleString('fr-FR')+' F':''}</option>`).join('');
+  sel.value = val;
+}
+
+// Synchronise les selects de filtres avec les motifs disponibles
+function syncFiltresMotifs(type){
+  const filtreIds = {
+    cot: ['f-cot-motif','rf-cot-motif'],
+    dep: ['f-dep-motif','rf-dep-motif'],
+    don: ['f-don-motif','rf-don-motif']
+  };
+  const motifs = type==='cot'?motifsCot:type==='dep'?motifsDep:motifsDon;
+  const options = '<option value="">Tous les motifs</option>' +
+    motifs.map(m=>`<option value="${m.id}">${m.nom}</option>`).join('');
+  filtreIds[type].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el){ const v=el.value; el.innerHTML=options; el.value=v; }
+  });
+}
+
+// ════════════════════════════════════════════
+// COTISATIONS
+// ════════════════════════════════════════════
+function validerCotisation(){
+  const motif   = document.getElementById('cot-motif').value;
+  const diacre  = document.getElementById('cot-diacre').value;
+  const date    = document.getElementById('cot-date').value;
+  const montant = parseFloat(document.getElementById('cot-montant').value);
+  const note    = document.getElementById('cot-note').value.trim();
+
+  // Nom du motif sélectionné
+  const nomMotif = motif ? (motifsCot.find(m=>String(m.id)===String(motif))||{}).nom||'' : '';
+
+  let ok=true;
+  err('err-cot-diacre', !req(diacre)); if(!req(diacre)) ok=false;
+  err('err-cot-date',   !req(date));   if(!req(date))   ok=false;
+  err('err-cot-montant',!montant||montant<=0); if(!montant||montant<=0) ok=false;
+  if(!ok) return;
+
+  const entree = Object.assign({ motifId: motif, motifNom: nomMotif, diacre, date, montant, note }, stamp(modifCot>=0?cotisations[modifCot]:null));
+
+  if(modifCot>=0){
+    // Mise à jour d'une entrée existante
+    cotisations[modifCot] = entree;
+    modifCot = -1;
+  } else {
+    cotisations.push(entree);
+  }
+  sauv('epmb_cot', cotisations);
+  resetFormCot();
+  afficherCotisations();
+}
+
+function resetFormCot(){
+  ['cot-motif','cot-diacre','cot-date','cot-montant','cot-note'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.value='';
+  });
+  document.getElementById('btn-cot').textContent='Enregistrer';
+  document.getElementById('btn-cot-annuler').style.display='none';
+  document.getElementById('badge-modif-cot').style.display='none';
+  modifCot=-1;
+}
+
+function annulerModif(type){
+  if(type==='cot'){ resetFormCot(); }
+  if(type==='dep'){ resetFormDep(); }
+  if(type==='don'){ resetFormDon(); }
+}
+
+function modifierCotisation(i){
+  const c = cotisations[i];
+  document.getElementById('cot-motif').value   = c.motifId||'';
+  document.getElementById('cot-diacre').value  = c.diacre;
+  document.getElementById('cot-date').value    = c.date;
+  document.getElementById('cot-montant').value = c.montant;
+  document.getElementById('cot-note').value    = c.note||'';
+  document.getElementById('btn-cot').textContent = 'Mettre à jour';
+  document.getElementById('btn-cot-annuler').style.display='block';
+  document.getElementById('badge-modif-cot').style.display='inline-flex';
+  modifCot = i;
+  document.getElementById('cotisations').scrollIntoView({behavior:'smooth'});
+}
+
+function supprimerCotisation(i){
+  if(!confirm('Supprimer ce versement ?')) return;
+  cotisations.splice(i,1); sauv('epmb_cot',cotisations); afficherCotisations();
+}
+
+function afficherCotisations(){
+  const fDiacre = document.getElementById('f-cot-diacre').value;
+  const fMotif  = document.getElementById('f-cot-motif').value;
+  const fDebut  = document.getElementById('f-cot-date-debut').value;
+  const fFin    = document.getElementById('f-cot-date-fin').value;
+
+  const filtre = cotisations.filter((c,i)=>{
+    if(fDiacre && c.diacre!==fDiacre) return false;
+    if(fMotif  && String(c.motifId)!==String(fMotif)) return false;
+    if(!matchPeriode(c.date,fDebut,fFin)) return false;
+    return true;
+  });
+
+  const liste = document.getElementById('liste-cotisations');
+  const totEl = document.getElementById('total-cotisations');
+  const valEl = document.getElementById('val-total-cot');
+
+  if(filtre.length===0){
+    liste.innerHTML='<p class="vide">Aucune cotisation trouvée.</p>';
+    totEl.style.display='none'; return;
+  }
+  const total = filtre.reduce((s,c)=>s+c.montant,0);
+  liste.innerHTML='<p class="liste-titre">Résultats</p>'+filtre.map(c=>{
+    const i = cotisations.indexOf(c);
+    return `<div class="entree">
+      <div class="entree-info">
+        <div class="entree-date">${fmtDate(c.date)}${c.motifNom?' · '+c.motifNom:''}</div>
+        <div class="entree-desc">${c.diacre}</div>
+        ${c.note?`<div class="entree-date">${c.note}</div>`:''}
+      </div>
+      <div class="entree-actions">
+        <span class="entree-montant" style="color:var(--bleu)">${fmtCourt(c.montant)}</span>
+        <button class="btn-sm btn-edit" onclick="modifierCotisation(${i})">✏️</button>
+        <button class="btn-sm btn-del"  onclick="supprimerCotisation(${i})">✕</button>
+      </div></div>`;
+  }).join('');
+  totEl.style.display='flex'; valEl.textContent=fmtCourt(total);
+}
+
+// ════════════════════════════════════════════
+// DÉPENSES
+// ════════════════════════════════════════════
+function validerDepense(){
+  const motif   = document.getElementById('dep-motif').value;
+  const objet   = document.getElementById('dep-objet').value.trim();
+  const date    = document.getElementById('dep-date').value;
+  const montant = parseFloat(document.getElementById('dep-montant').value);
+  const resp    = document.getElementById('dep-responsable').value;
+  const nomMotif= motif?(motifsDep.find(m=>String(m.id)===String(motif))||{}).nom||'':'';
+
+  let ok=true;
+  err('err-dep-objet',  !req(objet));             if(!req(objet))  ok=false;
+  err('err-dep-date',   !req(date));              if(!req(date))   ok=false;
+  err('err-dep-montant',!montant||montant<=0);    if(!montant||montant<=0) ok=false;
+  if(!ok) return;
+
+  const entree=Object.assign({motifId:motif,motifNom:nomMotif,objet,date,montant,responsable:resp},stamp(modifDep>=0?depenses[modifDep]:null));
+  if(modifDep>=0){ depenses[modifDep]=entree; modifDep=-1; }
+  else depenses.push(entree);
+  sauv('epmb_dep',depenses); resetFormDep(); afficherDepenses();
+}
+
+function resetFormDep(){
+  ['dep-motif','dep-objet','dep-date','dep-montant','dep-responsable'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.value='';
+  });
+  document.getElementById('btn-dep').textContent='Enregistrer';
+  document.getElementById('btn-dep-annuler').style.display='none';
+  document.getElementById('badge-modif-dep').style.display='none';
+  modifDep=-1;
+}
+
+function modifierDepense(i){
+  const d=depenses[i];
+  document.getElementById('dep-motif').value      = d.motifId||'';
+  document.getElementById('dep-objet').value      = d.objet;
+  document.getElementById('dep-date').value       = d.date;
+  document.getElementById('dep-montant').value    = d.montant;
+  document.getElementById('dep-responsable').value= d.responsable||'';
+  document.getElementById('btn-dep').textContent  = 'Mettre à jour';
+  document.getElementById('btn-dep-annuler').style.display='block';
+  document.getElementById('badge-modif-dep').style.display='inline-flex';
+  modifDep=i;
+  document.getElementById('depenses').scrollIntoView({behavior:'smooth'});
+}
+
+function supprimerDepense(i){
+  if(!confirm('Supprimer cette dépense ?')) return;
+  depenses.splice(i,1); sauv('epmb_dep',depenses); afficherDepenses();
+}
+
+function afficherDepenses(){
+  const fMotif = document.getElementById('f-dep-motif').value;
+  const fResp  = document.getElementById('f-dep-responsable').value;
+  const fDebut = document.getElementById('f-dep-debut').value;
+  const fFin   = document.getElementById('f-dep-fin').value;
+
+  const filtre = depenses.filter(d=>{
+    if(fMotif && String(d.motifId)!==String(fMotif)) return false;
+    if(fResp  && d.responsable!==fResp) return false;
+    if(!matchPeriode(d.date,fDebut,fFin)) return false;
+    return true;
+  });
+
+  const liste=document.getElementById('liste-depenses');
+  const totEl=document.getElementById('total-depenses');
+  const valEl=document.getElementById('val-total-dep');
+
+  if(filtre.length===0){ liste.innerHTML='<p class="vide">Aucune dépense trouvée.</p>'; totEl.style.display='none'; return; }
+  const total=filtre.reduce((s,d)=>s+d.montant,0);
+  liste.innerHTML='<p class="liste-titre">Résultats</p>'+filtre.map(d=>{
+    const i=depenses.indexOf(d);
+    return `<div class="entree">
+      <div class="entree-info">
+        <div class="entree-date">${fmtDate(d.date)}${d.motifNom?' · '+d.motifNom:''}${d.responsable?' · '+d.responsable:''}</div>
+        <div class="entree-desc">${d.objet}</div>
+      </div>
+      <div class="entree-actions">
+        <span class="entree-montant" style="color:var(--rouge)">${fmtCourt(d.montant)}</span>
+        <button class="btn-sm btn-edit" onclick="modifierDepense(${i})">✏️</button>
+        <button class="btn-sm btn-del"  onclick="supprimerDepense(${i})">✕</button>
+      </div></div>`;
+  }).join('');
+  totEl.style.display='flex'; valEl.textContent=fmtCourt(total);
+}
+
+// ════════════════════════════════════════════
+// DONS
+// ════════════════════════════════════════════
+function validerDon(){
+  const motif    = document.getElementById('don-motif').value;
+  const donateur = document.getElementById('don-donateur').value.trim();
+  const date     = document.getElementById('don-date').value;
+  const montant  = parseFloat(document.getElementById('don-montant').value);
+  const note     = document.getElementById('don-note').value.trim();
+  const nomMotif = motif?(motifsDon.find(m=>String(m.id)===String(motif))||{}).nom||'':'';
+
+  let ok=true;
+  err('err-don-donateur',!req(donateur)); if(!req(donateur)) ok=false;
+  err('err-don-date',    !req(date));     if(!req(date))     ok=false;
+  err('err-don-montant', !montant||montant<=0); if(!montant||montant<=0) ok=false;
+  if(!ok) return;
+
+  const entree=Object.assign({motifId:motif,motifNom:nomMotif,donateur,date,montant,note},stamp(modifDon>=0?dons[modifDon]:null));
+  if(modifDon>=0){ dons[modifDon]=entree; modifDon=-1; }
+  else dons.push(entree);
+  sauv('epmb_don',dons); resetFormDon(); afficherDons();
+}
+
+function resetFormDon(){
+  ['don-motif','don-donateur','don-date','don-montant','don-note'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.value='';
+  });
+  document.getElementById('btn-don').textContent='Enregistrer';
+  document.getElementById('btn-don-annuler').style.display='none';
+  document.getElementById('badge-modif-don').style.display='none';
+  modifDon=-1;
+}
+
+function modifierDon(i){
+  const d=dons[i];
+  document.getElementById('don-motif').value    = d.motifId||'';
+  document.getElementById('don-donateur').value = d.donateur;
+  document.getElementById('don-date').value     = d.date;
+  document.getElementById('don-montant').value  = d.montant;
+  document.getElementById('don-note').value     = d.note||'';
+  document.getElementById('btn-don').textContent= 'Mettre à jour';
+  document.getElementById('btn-don-annuler').style.display='block';
+  document.getElementById('badge-modif-don').style.display='inline-flex';
+  modifDon=i;
+  document.getElementById('dons').scrollIntoView({behavior:'smooth'});
+}
+
+function supprimerDon(i){
+  if(!confirm('Supprimer ce don ?')) return;
+  dons.splice(i,1); sauv('epmb_don',dons); afficherDons();
+}
+
+function afficherDons(){
+  const fMotif   = document.getElementById('f-don-motif').value;
+  const fDonat   = document.getElementById('f-don-donateur').value.toLowerCase();
+  const fDebut   = document.getElementById('f-don-debut').value;
+  const fFin     = document.getElementById('f-don-fin').value;
+
+  const filtre=dons.filter(d=>{
+    if(fMotif && String(d.motifId)!==String(fMotif)) return false;
+    if(fDonat && !d.donateur.toLowerCase().includes(fDonat)) return false;
+    if(!matchPeriode(d.date,fDebut,fFin)) return false;
+    return true;
+  });
+
+  const liste=document.getElementById('liste-dons');
+  const totEl=document.getElementById('total-dons');
+  const valEl=document.getElementById('val-total-don');
+
+  if(filtre.length===0){ liste.innerHTML='<p class="vide">Aucun don trouvé.</p>'; totEl.style.display='none'; return; }
+  const total=filtre.reduce((s,d)=>s+d.montant,0);
+  liste.innerHTML='<p class="liste-titre">Résultats</p>'+filtre.map(d=>{
+    const i=dons.indexOf(d);
+    return `<div class="entree">
+      <div class="entree-info">
+        <div class="entree-date">${fmtDate(d.date)}${d.motifNom?' · '+d.motifNom:''}</div>
+        <div class="entree-desc">${d.donateur}</div>
+        ${d.note?`<div class="entree-date">${d.note}</div>`:''}
+      </div>
+      <div class="entree-actions">
+        <span class="entree-montant" style="color:var(--vert)">${fmtCourt(d.montant)}</span>
+        <button class="btn-sm btn-edit" onclick="modifierDon(${i})">✏️</button>
+        <button class="btn-sm btn-del"  onclick="supprimerDon(${i})">✕</button>
+      </div></div>`;
+  }).join('');
+  totEl.style.display='flex'; valEl.textContent=fmtCourt(total);
+}
+
+// ════════════════════════════════════════════
+// RÉPERTOIRE
+// ════════════════════════════════════════════
+let repOngletActif='cot';
+function repOnglet(type){
+  repOngletActif=type;
+  ['cot','dep','don'].forEach(t=>{
+    document.getElementById('rep-'+t).style.display = t===type?'block':'none';
+    const btn=document.getElementById('rep-tab-'+t);
+    const couleurs={cot:'btn-bleu',dep:'btn-rouge',don:'btn-vert'};
+    btn.className='btn '+(t===type?couleurs[t]:'btn-gris');
+    btn.style='flex:1;padding:8px;font-size:12px;';
+  });
+  if(type==='cot') afficherRepCot();
+  if(type==='dep') afficherRepDep();
+  if(type==='don') afficherRepDon();
+}
+
+// Répertoire cotisations — par motif, puis par diacre
+function afficherRepCot(){
+  const fMotif  = document.getElementById('rf-cot-motif').value;
+  const fDiacre = document.getElementById('rf-cot-diacre').value;
+  const fStatut = document.getElementById('rf-cot-statut').value;
+  const fDebut  = document.getElementById('rf-cot-debut').value;
+  const fFin    = document.getElementById('rf-cot-fin').value;
+  const fMin    = parseFloat(document.getElementById('rf-cot-min').value)||0;
+
+  // Détermine les motifs à afficher
+  const motifsFiltres = motifsCot.filter(m=> !fMotif || String(m.id)===String(fMotif));
+  // Si aucun motif défini, regroupe les cotisations sans motif
+  const sansMotif = cotisations.filter(c=>!c.motifId && matchPeriode(c.date,fDebut,fFin));
+
+  let cSolde=0,cNon=0,cVide=0;
+  let html='';
+
+  // Groupe par motif
+  const groupes = motifsCot.length>0 ? motifsFiltres : [{id:'',nom:'Sans motif',montant:0}];
+
+  groupes.forEach(motif=>{
+    // Cotisations rattachées à ce motif
+    const cotsDuMotif = cotisations.filter(c=>
+      String(c.motifId)===String(motif.id) && matchPeriode(c.date,fDebut,fFin)
+    );
+
+    html += `<div style="margin-bottom:10px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bleu);color:white;border-radius:8px 8px 0 0;font-size:13px;font-weight:700;">
+        <span>📁 ${motif.nom}</span>
+        ${motif.montant>0?`<span>${motif.montant.toLocaleString('fr-FR')} F attendu/pers.</span>`:''}
+      </div>`;
+
+    // Pour ce motif, affiche chaque diacre filtré
+    const diacresFiltres = fDiacre ? [fDiacre] : DIACRES;
+    diacresFiltres.forEach(nom=>{
+      const versements = cotsDuMotif.filter(c=>c.diacre===nom);
+      const totalVerse = versements.reduce((s,c)=>s+c.montant,0);
+      const attendu    = motif.montant||0;
+      const reste      = Math.max(0,attendu-totalVerse);
+      const pct        = attendu>0?Math.min(100,Math.round(totalVerse/attendu*100)):0;
+
+      // Détermination du statut
+      let statut,clSt;
+      if(versements.length===0){ statut='Sans versement'; clSt='st-vide'; cVide++; }
+      else if(attendu===0||totalVerse>=attendu){ statut='Soldé ✓'; clSt='st-solde'; cSolde++; }
+      else if(totalVerse>0){ statut='Partiel'; clSt='st-partiel'; cNon++; }
+      else { statut='Non soldé'; clSt='st-non'; cNon++; }
+
+      // Filtre statut
+      if(fStatut==='solde'   && clSt!=='st-solde')  return;
+      if(fStatut==='nonsolde'&& clSt==='st-solde')  return;
+      if(fStatut==='vide'    && clSt!=='st-vide')   return;
+      // Filtre montant minimum
+      if(fMin>0 && totalVerse<fMin) return;
+
+      html+=`<div class="rep-carte" style="border-radius:0;margin-bottom:1px;box-shadow:none;border:1px solid var(--bord);">
+        <div class="rep-entete" onclick="this.nextElementSibling.classList.toggle('ouvert')">
+          <div>
+            <div class="rep-nom" style="font-size:13px;">${nom}</div>
+            <div style="font-size:11px;color:var(--doux);">${totalVerse>0?fmtCourt(totalVerse)+' versés':'Aucun versement'}</div>
+          </div>
+          <span class="${clSt}">${statut}</span>
+        </div>
+        <div class="rep-corps">
+          ${attendu>0?`<div class="barre-fond"><div class="barre-remplie" style="width:${pct}%;background:${totalVerse>=attendu?'var(--vert)':'var(--bleu)'};"></div></div>
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--doux);margin-bottom:8px;"><span>${pct}% atteint</span><span>Reste : ${reste.toLocaleString('fr-FR')} F</span></div>`:''}
+          <div class="rep-ligne"><span>Total versé</span><span style="font-weight:700;color:var(--bleu);">${fmtCourt(totalVerse)}</span></div>
+          ${attendu>0?`<div class="rep-ligne"><span>Attendu</span><span>${fmtCourt(attendu)}</span></div>
+          <div class="rep-ligne"><span>Reste</span><span style="font-weight:700;color:${reste>0?'var(--rouge)':'var(--vert)'};">${reste>0?fmtCourt(reste):'Soldé ✓'}</span></div>`:''}
+          <div style="margin-top:8px;">
+            ${versements.length===0?'<p class="vide" style="padding:8px 0;">Aucun versement.</p>':
+              versements.map(c=>`<div class="rep-ligne"><span style="color:var(--doux);">${fmtDate(c.date)}${c.note?' — '+c.note:''}${tr(c)}</span><span style="font-weight:600;">${fmtCourt(c.montant)}</span></div>`).join('')}
+          </div>
+        </div>
+      </div>`;
+    });
+    html+='</div>';
+  });
+
+  // Cotisations sans motif (si pas de filtre motif)
+  if(!fMotif && sansMotif.length>0){
+    html+=`<div class="carte" style="border-left:3px solid var(--doux);">
+      <p style="font-size:13px;font-weight:700;color:var(--doux);margin-bottom:8px;">Sans motif associé</p>
+      ${sansMotif.map(c=>`<div class="rep-ligne"><span>${c.diacre} — ${fmtDate(c.date)}</span><span style="font-weight:600;">${fmtCourt(c.montant)}</span></div>`).join('')}
+    </div>`;
+  }
+
+  document.getElementById('rep-cot-liste').innerHTML = html||'<p class="vide">Aucun résultat.</p>';
+
+  // Compteurs
+  document.getElementById('rep-cot-compteurs').innerHTML=`
+    <div class="compteur" style="background:var(--vert-c);"><div class="val" style="color:var(--vert);">${cSolde}</div><div class="lib" style="color:var(--vert);">Soldés</div></div>
+    <div class="compteur" style="background:var(--rouge-c);"><div class="val" style="color:var(--rouge);">${cNon}</div><div class="lib" style="color:var(--rouge);">Non soldés</div></div>
+    <div class="compteur" style="background:var(--gris-c);"><div class="val" style="color:var(--doux);">${cVide}</div><div class="lib" style="color:var(--doux);">Sans versement</div></div>`;
+}
+
+// Répertoire dépenses — par motif
+function afficherRepDep(){
+  const fMotif = document.getElementById('rf-dep-motif').value;
+  const fResp  = document.getElementById('rf-dep-resp').value;
+  const fDebut = document.getElementById('rf-dep-debut').value;
+  const fFin   = document.getElementById('rf-dep-fin').value;
+
+  const liste=document.getElementById('rep-dep-liste');
+  const groupes = motifsDep.length>0
+    ? (fMotif ? motifsDep.filter(m=>String(m.id)===String(fMotif)) : motifsDep)
+    : [{id:'',nom:'Sans motif',montant:0}];
+
+  let html='';
+  groupes.forEach(motif=>{
+    const deps=depenses.filter(d=>
+      String(d.motifId)===String(motif.id) &&
+      (!fResp||d.responsable===fResp) &&
+      matchPeriode(d.date,fDebut,fFin)
+    );
+    const total=deps.reduce((s,d)=>s+d.montant,0);
+    html+=`<div class="carte" style="border-left:4px solid var(--rouge);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <span style="font-weight:700;font-size:14px;color:var(--rouge);">📁 ${motif.nom}</span>
+        <span style="font-weight:700;font-size:13px;">${fmtCourt(total)}</span>
+      </div>
+      ${motif.montant>0?`<div style="font-size:12px;color:var(--doux);margin-bottom:8px;">Budget prévu : ${fmtCourt(motif.montant)} · Écart : ${(motif.montant-total>=0?'+':'')+fmtCourt(motif.montant-total)}</div>`:''}
+      ${deps.length===0?'<p class="vide" style="padding:8px 0;">Aucune dépense.</p>':
+        deps.map((d,i)=>`<div class="rep-ligne">
+          <span><strong>${d.objet}</strong><br><small style="color:var(--doux);">${fmtDate(d.date)}${d.responsable?' · '+d.responsable:''}${tr(d)}</small></span>
+          <span style="font-weight:700;color:var(--rouge);white-space:nowrap;">${fmtCourt(d.montant)}</span>
+        </div>`).join('')}
+    </div>`;
+  });
+  liste.innerHTML=html||'<p class="vide">Aucune dépense trouvée.</p>';
+}
+
+// Répertoire dons — par motif
+function afficherRepDon(){
+  const fMotif = document.getElementById('rf-don-motif').value;
+  const fDebut = document.getElementById('rf-don-debut').value;
+  const fFin   = document.getElementById('rf-don-fin').value;
+
+  const liste=document.getElementById('rep-don-liste');
+  const groupes = motifsDon.length>0
+    ? (fMotif ? motifsDon.filter(m=>String(m.id)===String(fMotif)) : motifsDon)
+    : [{id:'',nom:'Sans motif',montant:0}];
+
+  let html='';
+  groupes.forEach(motif=>{
+    const ds=dons.filter(d=>
+      String(d.motifId)===String(motif.id) &&
+      matchPeriode(d.date,fDebut,fFin)
+    );
+    const total=ds.reduce((s,d)=>s+d.montant,0);
+    const obj=motif.montant||0;
+    const pct=obj>0?Math.min(100,Math.round(total/obj*100)):0;
+    html+=`<div class="carte" style="border-left:4px solid var(--vert);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-weight:700;font-size:14px;color:var(--vert);">📁 ${motif.nom}</span>
+        <span style="font-weight:700;font-size:13px;">${fmtCourt(total)}</span>
+      </div>
+      ${obj>0?`<div class="barre-fond"><div class="barre-remplie" style="width:${pct}%;background:var(--vert);"></div></div>
+      <div style="font-size:11px;color:var(--doux);margin-bottom:8px;">${pct}% de l'objectif (${fmtCourt(obj)})</div>`:''}
+      ${ds.length===0?'<p class="vide" style="padding:8px 0;">Aucun don.</p>':
+        ds.map(d=>`<div class="rep-ligne">
+          <span><strong>${d.donateur}</strong><br><small style="color:var(--doux);">${fmtDate(d.date)}${d.note?' · '+d.note:''}${tr(d)}</small></span>
+          <span style="font-weight:700;color:var(--vert);white-space:nowrap;">${fmtCourt(d.montant)}</span>
+        </div>`).join('')}
+    </div>`;
+  });
+  liste.innerHTML=html||'<p class="vide">Aucun don trouvé.</p>';
+}
+
+// ════════════════════════════════════════════
+// BILAN
+// ════════════════════════════════════════════
+function rafraichirBilan(){
+  const m=document.getElementById('bil-mois').value;
+  const a=document.getElementById('bil-annee').value;
+
+  function filtrerPeriode(arr){
+    return arr.filter(x=>{
+      if(!x.date) return true;
+      const [an,mo]=x.date.split('-');
+      if(m && mo!==m) return false;
+      if(a && an!==a) return false;
+      return true;
+    });
+  }
+
+  const cotsFiltres = filtrerPeriode(cotisations);
+  const depsFiltres = filtrerPeriode(depenses);
+  const donsFiltres = filtrerPeriode(dons);
+
+  const totCot=cotsFiltres.reduce((s,c)=>s+c.montant,0);
+  const totDon=donsFiltres.reduce((s,d)=>s+d.montant,0);
+  const totDep=depsFiltres.reduce((s,d)=>s+d.montant,0);
+  const totRec=totCot+totDon;
+  const solde=totRec-totDep;
+
+  // Détail par diacre (cotisations)
+  const detailDiacres=DIACRES.map(nom=>{
+    const t=cotsFiltres.filter(c=>c.diacre===nom).reduce((s,c)=>s+c.montant,0);
+    return `<div class="bilan-ligne" style="font-size:13px;">
+      <span>${nom}</span>
+      <span style="font-weight:600;color:${t>0?'var(--bleu)':'var(--doux)'};">${t>0?fmtCourt(t):'—'}</span>
+    </div>`;
+  }).join('');
+
+  document.getElementById('bilan-contenu').innerHTML=`
+    <p style="font-size:12px;font-weight:700;color:var(--bleu);margin-bottom:8px;">Cotisations par diacre</p>
+    ${detailDiacres}
+    <div class="bilan-ligne bilan-total" style="margin-top:12px;"><span>Total cotisations</span><span>${fmt(totCot)}</span></div>
+    <div class="bilan-ligne"><span>Total dons</span><span>${fmt(totDon)}</span></div>
+    <div class="bilan-ligne bilan-total"><span>= Total recettes</span><span>${fmt(totRec)}</span></div>
+    <div class="bilan-ligne" style="color:var(--rouge);"><span>Total dépenses</span><span>${fmt(totDep)}</span></div>
+    <div class="bilan-ligne bilan-solde"><span>Solde disponible</span><span style="color:${solde>=0?'var(--vert)':'var(--rouge)'};">${fmt(solde)}</span></div>`;
+}
+
+// ════════════════════════════════════════════
+// SAUVEGARDE
+// ════════════════════════════════════════════
+function rafraichirResumeSauvegarde(){
+  const el=document.getElementById('export-resume');
+  if(el) el.textContent=`${cotisations.length} cotisation(s) · ${depenses.length} dépense(s) · ${dons.length} don(s) · ${motifsCot.length+motifsDep.length+motifsDon.length} motif(s) · ${presences.length} réunion(s)`;
+}
+
+function exporterDonnees(){
+  const data={
+    version:'3.0', date_export:new Date().toISOString(),
+    cotisations, depenses, dons,
+    motifsCot, motifsDep, motifsDon, presences
+  };
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download='epmb-diacres-'+new Date().toISOString().slice(0,10)+'.json';
+  a.click(); URL.revokeObjectURL(url);
+  try{ localStorage.setItem('epmb_last_export', new Date().toISOString()); }catch(e){}
+  rafraichirResumeSauvegarde(); rafraichirAccueil();
+}
+
+function importerDonnees(input){
+  const f=input.files[0]; if(!f) return;
+  const lr=new FileReader();
+  lr.onload=e=>{
+    try{
+      const d=JSON.parse(e.target.result);
+      if(!d.cotisations||!d.depenses||!d.dons){ afficherMsgImport('❌ Fichier invalide.','var(--rouge)'); return; }
+      if(!confirm('Restaurer la sauvegarde du '+(d.date_export||'?').slice(0,10)+' ?')) return;
+      cotisations=d.cotisations; depenses=d.depenses; dons=d.dons;
+      motifsCot=d.motifsCot||[]; motifsDep=d.motifsDep||[]; motifsDon=d.motifsDon||[];
+      presences=d.presences||[]; sauv('epmb_pres',presences);
+      sauv('epmb_cot',cotisations); sauv('epmb_dep',depenses); sauv('epmb_don',dons);
+      sauv('epmb_motifs_cot',motifsCot); sauv('epmb_motifs_dep',motifsDep); sauv('epmb_motifs_don',motifsDon);
+      toutRafraichir();
+      afficherMsgImport('✅ Restaurée avec succès !','var(--vert)');
+    }catch(er){ afficherMsgImport('❌ Erreur de lecture.','var(--rouge)'); }
+  };
+  lr.readAsText(f); input.value='';
+}
+
+function afficherMsgImport(t,c){
+  const el=document.getElementById('import-msg');
+  if(!el) return;
+  el.textContent=t; el.style.color=c; el.style.display='block';
+  setTimeout(()=>el.style.display='none',4000);
+}
+
+// ════════════════════════════════════════════
+// INIT GLOBALE
+// ════════════════════════════════════════════
+// ════════════════════════════════════════════
+// NOUVEAUTÉS : historique, rappels, accueil, rapport, stats, présences
+// ════════════════════════════════════════════
+const MOISN=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+function auj(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function stamp(old){const n=new Date().toISOString();return {cree:old?old.cree:n,modif:n};}
+function fmtDT(iso){return new Date(iso).toLocaleString('fr-FR',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});}
+function tr(x){ if(!x||(!x.cree&&!x.modif)) return ''; return '<br><span style="font-size:10px;color:var(--doux);">'+(x.cree?'Créé le '+fmtDT(x.cree):'')+(x.cree&&x.modif?' · ':'')+(x.modif?'Modifié le '+fmtDT(x.modif):'')+'</span>'; }
+
+function joursAvant(d){return Math.round((new Date(d+'T00:00:00')-new Date(auj()+'T00:00:00'))/864e5);}
+function alerte(m){
+  if(!m.date) return null; const j=joursAvant(m.date);
+  if(j<0) return {c:'r',j,t:'🔴 Dépassée de '+(-j)+' j'};
+  if(j<=7) return {c:'o',j,t:'🟡 '+(j===0?'Aujourd\'hui':'Dans '+j+' j')};
+  return {c:'v',j,t:'🟢 Dans '+j+' j'};
+}
+
+// ── ACCUEIL ──
+function rafraichirAccueil(){
+  const el=document.getElementById('accueil-contenu'); if(!el) return;
+  const ym=auj().slice(0,7);
+  const som=a=>a.filter(x=>x.date&&x.date.slice(0,7)===ym).reduce((t,x)=>t+x.montant,0);
+  const rec=som(cotisations)+som(dons), dep=som(depenses), solde=rec-dep;
+  const ms=motifsCot.filter(m=>m.montant>0); let sol=0,ret=0;
+  DIACRES.forEach(n=>{ const ok=ms.every(m=>cotisations.filter(c=>String(c.motifId)===String(m.id)&&c.diacre===n).reduce((t,c)=>t+c.montant,0)>=m.montant); ok?sol++:ret++; });
+  const rapp=[]; [[motifsCot,'💳'],[motifsDep,'💸'],[motifsDon,'🙏']].forEach(([arr,ic])=>arr.forEach(m=>{const a=alerte(m); if(a&&a.c!=='v') rapp.push({m,a,ic});}));
+  rapp.sort((x,y)=>x.a.j-y.a.j);
+  let last=''; try{last=localStorage.getItem('epmb_last_export')||'';}catch(e){}
+  const jl=last?Math.floor((Date.now()-new Date(last))/864e5):null;
+  const mois=new Date().toLocaleDateString('fr-FR',{month:'long',year:'numeric'});
+  el.innerHTML=`
+  <div class="carte t-or" style="text-align:center;">
+    <p class="liste-titre">Solde de ${mois}</p>
+    <div class="gros" style="color:${solde>=0?'var(--vert)':'var(--rouge)'};">${fmt(solde)}</div>
+    <p style="font-size:12px;color:var(--doux);">Recettes ${fmtCourt(rec)} − Dépenses ${fmtCourt(dep)}</p>
+  </div>
+  <div class="compteurs">
+    <div class="compteur" style="background:var(--vert-c);"><div class="val" style="color:var(--vert);">${ms.length?sol:'—'}</div><div class="lib" style="color:var(--vert);">Diacres soldés</div></div>
+    <div class="compteur" style="background:var(--rouge-c);"><div class="val" style="color:var(--rouge);">${ms.length?ret:'—'}</div><div class="lib" style="color:var(--rouge);">En retard</div></div>
+    <div class="compteur" style="background:var(--or-c);"><div class="val" style="color:var(--or);">${rapp.length}</div><div class="lib" style="color:var(--or);">Échéances</div></div>
+  </div>
+  ${ms.length?'':'<p class="vide" style="margin-top:-6px;">Créez un motif de cotisation avec un montant attendu pour suivre les retards.</p>'}
+  <div class="carte t-or"><h2>⏰ Échéances proches ou dépassées</h2>
+    ${rapp.length?rapp.map(r=>`<div class="rep-ligne"><span>${r.ic} ${r.m.nom}<br><span class="al al-${r.a.c}">${r.a.t}</span></span><span style="font-size:12px;color:var(--doux);">${fmtDate(r.m.date)}</span></div>`).join(''):'<p class="vide">Aucune échéance dans les 7 prochains jours.</p>'}
+  </div>
+  <div class="carte" style="border-left:4px solid ${last&&jl<=7?'var(--vert)':'var(--rouge)'};">
+    <h2 style="color:var(--gris);">💾 Dernière sauvegarde</h2>
+    <p style="font-size:14px;font-weight:600;margin-bottom:10px;">${last?fmtDT(last)+' (il y a '+jl+' j)':'Aucune sauvegarde exportée pour le moment'}</p>
+    <button class="btn btn-vert" onclick="aller('sauvegarde',document.querySelectorAll('nav button')[9])">Sauvegarder maintenant</button>
+  </div>`;
+}
+
+// ── RAPPORT ──
+function genererRapport(){
+  const m=document.getElementById('bil-mois').value, a=document.getElementById('bil-annee').value;
+  const f=arr=>arr.filter(x=>{ if(!x.date) return true; const [an,mo]=x.date.split('-'); return !(m&&mo!==m)&&!(a&&an!==a); }).sort((p,q)=>(p.date||'').localeCompare(q.date||''));
+  const C=f(cotisations),D=f(depenses),N=f(dons);
+  const t=arr=>arr.reduce((s,x)=>s+x.montant,0);
+  const per=(m?MOISN[+m-1]+' ':'')+(a||(m?'':'toutes périodes'));
+  const ligneC=DIACRES.map(n=>{const v=t(C.filter(c=>c.diacre===n));return `<tr><td>${n}</td><td class="m">${v?fmtCourt(v):'—'}</td></tr>`;}).join('');
+  const tab=(h,rows)=>`<table><tr>${h.map((x,i)=>`<th${i===h.length-1?' class="m"':''}>${x}</th>`).join('')}</tr>${rows||`<tr><td colspan="${h.length}" style="text-align:center;color:#6b7280;">Aucune ligne</td></tr>`}</table>`;
+  const solde=t(C)+t(N)-t(D);
+  document.getElementById('rapport-corps').innerHTML=`
+    <div style="text-align:center;border-bottom:2px solid #1a5fa8;padding-bottom:8px;margin-bottom:10px;">
+      <div style="font-size:11px;">Église Protestante Méthodiste du Bénin</div>
+      <div style="font-size:16px;font-weight:700;">EPMB — Ahossougneta Temple Donatin</div>
+      <div style="font-size:12px;">Collège des Diacres · Rapport financier — ${per}</div>
+    </div>
+    <h3>Cotisations par diacre</h3>${tab(['Diacre','Total'],ligneC+`<tr><th>Total cotisations</th><th class="m">${fmtCourt(t(C))}</th></tr>`)}
+    <h3>Dons</h3>${tab(['Date','Donateur','Motif','Montant'],N.map(x=>`<tr><td>${fmtDate(x.date)}</td><td>${x.donateur}</td><td>${x.motifNom||''}</td><td class="m">${fmtCourt(x.montant)}</td></tr>`).join(''))}
+    <h3>Dépenses</h3>${tab(['Date','Objet','Motif','Montant'],D.map(x=>`<tr><td>${fmtDate(x.date)}</td><td>${x.objet}${x.responsable?' ('+x.responsable+')':''}</td><td>${x.motifNom||''}</td><td class="m">${fmtCourt(x.montant)}</td></tr>`).join(''))}
+    <h3>Synthèse</h3>${tab(['Libellé','Montant'],`<tr><td>Total cotisations</td><td class="m">${fmtCourt(t(C))}</td></tr><tr><td>Total dons</td><td class="m">${fmtCourt(t(N))}</td></tr><tr><td><b>Total recettes</b></td><td class="m"><b>${fmtCourt(t(C)+t(N))}</b></td></tr><tr><td>Total dépenses</td><td class="m">${fmtCourt(t(D))}</td></tr><tr><th>Solde disponible</th><th class="m">${fmt(solde)}</th></tr>`)}
+    <p style="font-size:10px;color:#6b7280;text-align:right;">Généré le ${fmtDT(new Date().toISOString())}</p>`;
+  document.getElementById('rapport').style.display='block'; window.scrollTo(0,0);
+}
+
+// ── STATS ──
+const MI=['J','F','M','A','M','J','J','A','S','O','N','D'];
+const COUL=['#1a5fa8','#b91c1c','#15803d','#d97706','#6d28d9','#0891b2','#be185d','#65a30d'];
+function annees(){const s=new Set([auj().slice(0,4)]);[cotisations,depenses,dons,presences].forEach(a=>a.forEach(x=>x.date&&s.add(x.date.slice(0,4))));return [...s].sort();}
+function remplirAnnee(id){const el=document.getElementById(id);const v=el.value||auj().slice(0,4);el.innerHTML=annees().map(a=>`<option>${a}</option>`).join('');el.value=v;return el.value;}
+function parMois(a,an){const r=Array(12).fill(0);a.forEach(x=>{if(x.date&&x.date.slice(0,4)===an)r[+x.date.slice(5,7)-1]+=x.montant;});return r;}
+function kf(n){return Math.abs(n)>=1000?(Math.round(n/100)/10)+'k':String(n);}
+function barSVG(v,col){
+  const W=320,H=150,p=10,mx=Math.max(...v,1),bw=(W-2*p)/12;
+  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;">`+v.map((x,i)=>{const h=(H-45)*x/mx,cx=p+i*bw+bw/2;
+    return `<rect x="${cx-bw/2+3}" y="${H-20-h}" width="${bw-6}" height="${h}" rx="2" fill="${col}"/><text x="${cx}" y="${H-6}" font-size="9" text-anchor="middle" fill="#6b7280">${MI[i]}</text>`+(x>0?`<text x="${cx}" y="${H-24-h}" font-size="8" text-anchor="middle" fill="#374151">${kf(x)}</text>`:'');}).join('')+'</svg>';
+}
+function ligneSVG(v){
+  const W=320,H=150,p=16,mn=Math.min(0,...v),mx=Math.max(0,...v),rg=(mx-mn)||1;
+  const X=i=>p+i*(W-2*p)/11, Y=y=>14+(H-44)*(mx-y)/rg;
+  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;"><line x1="${p}" x2="${W-p}" y1="${Y(0)}" y2="${Y(0)}" stroke="#d1d5db" stroke-dasharray="3"/><polyline points="${v.map((y,i)=>X(i)+','+Y(y)).join(' ')}" fill="none" stroke="#d97706" stroke-width="2"/>`+
+    v.map((y,i)=>`<circle cx="${X(i)}" cy="${Y(y)}" r="2.5" fill="#d97706"/><text x="${X(i)}" y="${H-6}" font-size="9" text-anchor="middle" fill="#6b7280">${MI[i]}</text>`).join('')+'</svg>';
+}
+function pieSVG(items){
+  const tot=items.reduce((s,i)=>s+i.v,0); if(!tot) return '<p class="vide">Aucune dépense cette année.</p>';
+  let a=-Math.PI/2,c=70,R=62,p='';
+  items.forEach((it,i)=>{const fr=it.v/tot,col=COUL[i%COUL.length];
+    if(fr>=.9999){p+=`<circle cx="${c}" cy="${c}" r="${R}" fill="${col}"/>`;return;}
+    const b=a+fr*2*Math.PI; p+=`<path d="M${c},${c} L${c+R*Math.cos(a)},${c+R*Math.sin(a)} A${R},${R} 0 ${fr>.5?1:0} 1 ${c+R*Math.cos(b)},${c+R*Math.sin(b)} Z" fill="${col}"/>`; a=b;});
+  return `<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;"><svg viewBox="0 0 140 140" style="width:140px;height:140px;flex:0 0 auto;">${p}</svg><div style="flex:1;min-width:150px;font-size:12px;">`+
+    items.map((it,i)=>`<div style="display:flex;justify-content:space-between;gap:6px;padding:2px 0;"><span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:${COUL[i%COUL.length]};margin-right:6px;"></span>${it.n}</span><b>${Math.round(it.v/tot*100)}%</b></div>`).join('')+'</div></div>';
+}
+function rafraichirStats(){
+  const an=remplirAnnee('st-annee');
+  const cot=parMois(cotisations,an),don=parMois(dons,an),dep=parMois(depenses,an);
+  const avant=[...cotisations,...dons].filter(x=>x.date&&x.date.slice(0,4)<an).reduce((s,x)=>s+x.montant,0)-depenses.filter(x=>x.date&&x.date.slice(0,4)<an).reduce((s,x)=>s+x.montant,0);
+  let c=avant; const solde=cot.map((_,i)=>(c+=cot[i]+don[i]-dep[i]));
+  const g={}; depenses.filter(d=>d.date&&d.date.slice(0,4)===an).forEach(d=>{const n=d.motifNom||'Sans motif';g[n]=(g[n]||0)+d.montant;});
+  const items=Object.entries(g).map(([n,v])=>({n,v})).sort((x,y)=>y.v-x.v);
+  document.getElementById('st-cot').innerHTML=barSVG(cot,'#1a5fa8')+`<div class="total-barre"><span>Total ${an}</span><span>${fmtCourt(cot.reduce((s,x)=>s+x,0))}</span></div>`;
+  document.getElementById('st-dep').innerHTML=pieSVG(items);
+  document.getElementById('st-solde').innerHTML=ligneSVG(solde)+`<div class="total-barre"><span>Solde fin ${an}</span><span style="color:${solde[11]>=0?'var(--vert)':'var(--rouge)'};">${fmtCourt(solde[11])}</span></div>`;
+}
+
+// ── PRÉSENCES ──
+let modifPres=-1;
+const PS={P:'✅ Présent',A:'❌ Absent',E:'🟡 Excusé'};
+function construireFormPres(st){
+  st=st||{};
+  document.getElementById('pr-liste').innerHTML=DIACRES.map((n,i)=>`<div class="pr-row"><span>${n}</span><select id="pr-s-${i}">${Object.entries(PS).map(([k,v])=>`<option value="${k}"${(st[n]||'P')===k?' selected':''}>${v}</option>`).join('')}</select></div>`).join('');
+}
+function resetFormPres(){
+  document.getElementById('pr-date').value=''; document.getElementById('pr-objet').value='';
+  construireFormPres(); modifPres=-1;
+  document.getElementById('btn-pres').textContent='Enregistrer la réunion';
+  document.getElementById('btn-pres-annuler').style.display='none';
+  document.getElementById('badge-modif-pres').style.display='none';
+}
+function validerPres(){
+  const date=document.getElementById('pr-date').value;
+  err('err-pr-date',!date); if(!date) return;
+  const st={}; DIACRES.forEach((n,i)=>st[n]=document.getElementById('pr-s-'+i).value);
+  const e=Object.assign({date,objet:document.getElementById('pr-objet').value.trim(),statuts:st},stamp(modifPres>=0?presences[modifPres]:null));
+  if(modifPres>=0) presences[modifPres]=e; else presences.push(e);
+  sauv('epmb_pres',presences); resetFormPres(); afficherPres();
+}
+function modifierPres(i){
+  const r=presences[i];
+  document.getElementById('pr-date').value=r.date; document.getElementById('pr-objet').value=r.objet||'';
+  construireFormPres(r.statuts); modifPres=i;
+  document.getElementById('btn-pres').textContent='Mettre à jour';
+  document.getElementById('btn-pres-annuler').style.display='block';
+  document.getElementById('badge-modif-pres').style.display='inline-flex';
+  document.getElementById('presences').scrollIntoView({behavior:'smooth'});
+}
+function supprimerPres(i){ if(!confirm('Supprimer cette réunion ?')) return; presences.splice(i,1); sauv('epmb_pres',presences); afficherPres(); }
+function afficherPres(){
+  const an=remplirAnnee('pr-annee');
+  const R=presences.filter(r=>r.date&&r.date.slice(0,4)===an);
+  document.getElementById('pr-taux').innerHTML=R.length?`<p style="font-size:12px;color:var(--doux);margin-bottom:8px;">${R.length} réunion(s) en ${an}</p>`+DIACRES.map(n=>{
+    const p=R.filter(r=>r.statuts[n]==='P').length,e=R.filter(r=>r.statuts[n]==='E').length,ab=R.length-p-e,pct=Math.round(p/R.length*100);
+    const col=pct>=75?'var(--vert)':pct>=50?'#d97706':'var(--rouge)';
+    return `<div style="margin-bottom:9px;"><div style="display:flex;justify-content:space-between;font-size:13px;"><span style="font-weight:600;">${n}</span><b style="color:${col};">${pct}%</b></div><div class="barre-fond"><div class="barre-remplie" style="width:${pct}%;background:${col};"></div></div><div style="font-size:11px;color:var(--doux);">✅ ${p} · 🟡 ${e} · ❌ ${ab}</div></div>`;}).join(''):'<p class="vide">Aucune réunion enregistrée cette année.</p>';
+  const H=presences.map((r,i)=>({r,i})).sort((x,y)=>y.r.date.localeCompare(x.r.date));
+  document.getElementById('pr-hist').innerHTML=H.length?H.map(({r,i})=>{
+    const v=Object.values(r.statuts),p=v.filter(x=>x==='P').length,e=v.filter(x=>x==='E').length,ab=v.length-p-e;
+    return `<div class="entree"><div class="entree-info"><div class="entree-date">${fmtDate(r.date)}</div><div class="entree-desc">${r.objet||'Réunion'}</div><div class="entree-date">✅ ${p} · 🟡 ${e} · ❌ ${ab}${tr(r)}</div></div><div class="entree-actions"><button class="btn-sm btn-edit" onclick="modifierPres(${i})">✏️</button><button class="btn-sm btn-del" onclick="supprimerPres(${i})">✕</button></div></div>`;}).join(''):'<p class="vide">Aucune réunion enregistrée.</p>';
+}
+
+function toutRafraichir(){
+  ['cot','dep','don'].forEach(t=>{ afficherListeMotifs(t); syncSelectMotifs(t); syncFiltresMotifs(t); });
+  afficherCotisations(); afficherDepenses(); afficherDons();
+  rafraichirResumeSauvegarde(); rafraichirAccueil(); resetFormPres(); afficherPres();
+}
+
+toutRafraichir();
+try{const s=lireDerniereSauvegardeLocale();const el=document.getElementById('auto-backup-status');if(el&&s)el.textContent='✅ Dernière sauvegarde locale automatique : '+new Date(s).toLocaleString('fr-FR');}catch(e){}
+</script>
+</body>
+</html>
